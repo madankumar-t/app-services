@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    server {
+      listen 80;
+      location /javaapi/ {
+        proxy_pass http://javaapi:8080/;
+        rewrite ^/javaapi(/|$)(.*) /$2 break;
+      }
+      location /nodeapi/ {
+        proxy_pass http://nodeapi:3000/;
+        rewrite ^/nodeapi(/|$)(.*) /$2 break;
+      }
+      location /react-ui/ {
+        proxy_pass http://react-ui:3000/;
+        rewrite ^/react-ui(/|$)(.*) /$2 break;
+      }
+    }
